@@ -126,7 +126,9 @@ public class ScriptBuildStep extends Builder {
                  * Copying temporary file to remote execution host
                  */
                 dest = workingDir.createTextTempFile("build_step_template", ".sh", data, false);
-                LOGGER.log(Level.FINE, "Wrote script to " + Computer.currentComputer().getDisplayName() + ":" + dest.getRemote());
+                // we may not have a computer e.g. BuildTimeout plugin step
+                final Computer computer = Computer.currentComputer();
+                LOGGER.log(Level.FINE, "Wrote script to " + (computer == null ? "" : (computer.getDisplayName() + ":")) + dest.getRemote());
 
                 /*
                  * Analyze interpreter line (and use the desired interpreter)
